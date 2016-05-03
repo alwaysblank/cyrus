@@ -54,7 +54,7 @@
      */
     public function addContent ( $content, $key = false )
     {   
-        if( is_a( $content, 'Cyrus' ) ) :
+        if( is_a( $content, 'Livy\Cyrus' ) ) :
             $key = $content->key;
             $content = $content->construct();
         endif;
@@ -170,7 +170,7 @@
      */
     public function setURL ( $url )
     {
-        $this->setAttr( 'a', $url );
+        $this->setAttr( 'href', $url );
         return $this;
     }
 

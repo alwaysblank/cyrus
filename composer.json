@@ -1,0 +1,21 @@
+{
+    "name": "benspants/cyrus",
+    "description": "A simple, object-oriented HTML templating/generation engine. Named for the ancient Roman architect.",
+    "license": "MIT",
+    "keywords": ["HTML"],
+    "authors": [
+        {
+            "name": "Ben Bateman",
+            "email": "ben@murmurcreative.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "4.0.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Livy\\": "src"
+        }
+    }
+}

@@ -1,4 +1,4 @@
-<?php 
+<?php namespace Livy;
     /**
      * Cyrus HTML element constructor
      * 
@@ -27,6 +27,11 @@
     function __construct()
     {
         $this->key = uniqid( 'cyrus' );
+    }
+
+    public static function test()
+    {
+        return "test successful!"   ;
     }
 
     /**

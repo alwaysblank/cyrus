@@ -116,7 +116,11 @@
      */
     public function getAttr ( $attr )
     {   
-        return $this->attrs[$attr];
+        if( isset($this->attrs[$attr]) ) :
+            return $this->attrs[$attr];
+        else :
+            return false;
+        endif;
     }
 
     /**
@@ -135,7 +139,9 @@
             unset( $this->attrs[$attr] );
             return $this;
         elseif( $value !== true ) :
-            $value = array( $value );
+            $array = $this->getAttr ( $attr );
+            $array[] = $value;
+            $value = $array;
         endif;
         $this->attrs[$attr] = $value;
         return $this;

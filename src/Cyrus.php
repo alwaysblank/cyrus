@@ -29,11 +29,6 @@
         $this->key = uniqid( 'cyrus' );
     }
 
-    public static function test()
-    {
-        return "test successful!"   ;
-    }
-
     /**
      * A convenience function. Mostly just a wrapper for `join`, but passing it through
      * this method allows for additional logic (if needed).
@@ -91,11 +86,22 @@
      * Create and return a child of the current Cyrus.
      * @return object $child Any further chaining will now connect to the child
      */
-    public function openChild()
+    public function openChild( $id = false )
     {
         $child = new Cyrus;
         $child->setParent( $this );
+        if( $id ) :
+            $this->{$id} = $child->key;
+        endif;
         return $child;
+    }
+
+    public function nest( $id )
+    {
+        if( !$id ) : return $this; endif;
+
+        $child = $this->{$id};
+        return $this->child[$child];
     }
 
     /**

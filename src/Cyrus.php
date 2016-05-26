@@ -74,7 +74,7 @@ namespace Livy;
     {
         if (is_a($content, 'Livy\Cyrus')) :
             $key = $content->key;
-        $content = $content->construct();
+            $content = $content->construct();
         endif;
         if ($key === false) :
             $this->content[] = $content; else :
@@ -96,6 +96,22 @@ namespace Livy;
         $this->child[$object->key] = $object;
 
         return $this;
+    }
+
+    /**
+     * Get the parent of the passed Cyrus.
+     * @param type|null $object 
+     * @return type
+     */
+    public function getParent( $object = null )
+    {
+        if ( $object == null ) : $object = $this; endif;
+        if ( $object->parent ) :
+            return $object->parent;
+        else :
+            throw new \Exception("I couldn't find a parent. You probably forgot to close a child somewhere.");
+            return $object;
+        endif;
     }
 
     /**
@@ -154,10 +170,15 @@ namespace Livy;
      */
     public function closeChild()
     {
-        $this->parent->addContent($this);
-        $this->parent->setChild($this);
-
-        return $this->parent;
+        try {
+            $parent = $this->getParent();
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+            return $this;
+        }
+        $parent->addContent( $this );
+        $parent->setChild( $this );
+        return $parent;
     }
 
     /**
@@ -315,4 +336,11 @@ namespace Livy;
     {
         echo $this->construct();
     }
-    }
+};
+
+    $test = new Cyrus;
+    $test->setClass('wrapper')->openChild()->setClass('inner');
+    if(true):
+        $test->openChild()->setClass('deep-inner')->addContent("I'm very deeply nested!");
+    endif;
+    $test->closeChild();

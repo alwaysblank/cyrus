@@ -1,15 +1,17 @@
 <?php
-
 namespace Livy;
 
-/**
+require_once( 'CyrusInterface.php' );
+
+
+    /**
      * Cyrus HTML element constructor.
      * 
      * Cyrus, named for a reasonably-well-known ancient Roman architect, builds HTML elements
      * for you using an OO approach. Using method chaining, you can build infinitely nested elements with
      * a single (albiet very long) line of code.
      */
-    class Cyrus
+    class Cyrus implements CyrusInterface
     {
         private $content = array();
         private $attrs = array();
@@ -46,14 +48,7 @@ namespace Livy;
         return implode($delimiter, $array);
     }
 
-    /**
-     * Checks whether or not this string looks the way it should.
-     * Returns the string if it passes, and bool false if it doesn't.
-     *
-     * @param string $string
-     * 
-     * @return string|bool
-     */
+    
     public function safeString($string)
     {
         if (preg_match("/^\w+$/", $string)) :
@@ -62,14 +57,7 @@ namespace Livy;
         endif;
     }
 
-    /**
-     * Add an item to the `content` property, to later be constructed.
-     *
-     * @param string|object $content A string or a Cyrus object.
-     * @param string|bool   $key     An optional key to identify this in the array.
-     *
-     * @return object $this Returned for chaining.
-     */
+
     public function addContent($content, $key = false)
     {
         if (is_a($content, 'Livy\Cyrus')) :
@@ -84,13 +72,7 @@ namespace Livy;
         return $this;
     }
 
-    /**
-     * Set the child of this Cyrus, using a key to allow us to add multiple children.
-     *
-     * @param type $object
-     *
-     * @return object
-     */
+
     public function setChild($object)
     {
         $this->child[$object->key] = $object;
@@ -98,13 +80,7 @@ namespace Livy;
         return $this;
     }
 
-    /**
-     * Get the parent of the passed Cyrus.
-     *
-     * @param type|null $object
-     *
-     * @return type
-     */
+
     public function getParent($object = null)
     {
         if ($object == null) : $object = $this;
@@ -117,13 +93,7 @@ namespace Livy;
         endif;
     }
 
-    /**
-     * Set the parent of this Cyrus.
-     *
-     * @param object $parent The Cyrus that is the parent of this one.
-     *
-     * @return object
-     */
+
     public function setParent($parent)
     {
         $this->parent = $parent;
@@ -131,11 +101,7 @@ namespace Livy;
         return $this;
     }
 
-    /**
-     * Create and return a child of the current Cyrus.
-     *
-     * @return object
-     */
+
     public function openChild($id = false)
     {
         $child = new self();
@@ -149,28 +115,18 @@ namespace Livy;
         return $child;
     }
 
-        /**
-         * Re-opens a closed child, identified by $id, and returns it for chaining.
-         * 
-         * @param string $id
-         * 
-         * @return object
-         */
-        public function nest($id)
-        {
-            if (!$id) : return $this;
-            endif;
 
-            $child = $this->{$id};
+    public function nest($id)
+    {
+        if (!$id) : return $this;
+        endif;
 
-            return $this->child[$child];
-        }
+        $child = $this->{$id};
 
-    /**
-     * Close the child and return to the parent Cyrus.
-     *
-     * @return object $parent Returned for chaining.
-     */
+        return $this->child[$child];
+    }
+
+
     public function closeChild()
     {
         try {
@@ -186,13 +142,7 @@ namespace Livy;
         return $parent;
     }
 
-    /**
-     * Get the value of the specified attribute.
-     *
-     * @param string $attr The attribute requested, i.e. `class`, `style`, `data-target`, etc.
-     *
-     * @return string|array
-     */
+
     public function getAttr($attr)
     {
         if (isset($this->attrs[$attr])) :
@@ -201,18 +151,7 @@ namespace Livy;
         endif;
     }
 
-    /**
-     * Adds the value to an array of values for the attribute. 
-     * If bool `true` is passed as the value, the attribute will have no value
-     * when constructed.
-     * If bool `false` is passed as the value, that attribute (and its content)
-     * will be completely removed from the object.
-     *
-     * @param string      $attr
-     * @param string|bool $value
-     *
-     * @return object
-     */
+
     public function setAttr($attr, $value)
     {
         if ($value === false) :
@@ -228,13 +167,7 @@ namespace Livy;
         return $this;
     }
 
-    /**
-     * `class` shortcut for setAttr.
-     *
-     * @param string $class
-     *
-     * @return object
-     */
+
     public function setClass($class)
     {
         $this->setAttr('class', $class);
@@ -242,13 +175,7 @@ namespace Livy;
         return $this;
     }
 
-    /**
-     * `id` shortcut for setAttr.
-     *
-     * @param string $id
-     *
-     * @return object
-     */
+
     public function setID($id)
     {
         $this->setAttr('id', $id);
@@ -256,13 +183,7 @@ namespace Livy;
         return $this;
     }
 
-    /**
-     * `a` shortcut for setAttr, for links.
-     *
-     * @param string $class
-     *
-     * @return object
-     */
+
     public function setURL($url)
     {
         $this->setAttr('href', $url);
@@ -270,14 +191,7 @@ namespace Livy;
         return $this;
     }
 
-    /**
-     * `style` shortcut for setAttr.
-     *
-     * @param string $prop
-     * @param string $value
-     *
-     * @return object
-     */
+
     public function setStyle($prop, $value)
     {
         $style = "$prop: $value;";
@@ -286,14 +200,7 @@ namespace Livy;
         return $this;
     }
 
-    /**
-     * Set the element type for this Cyrus.
-     * This will overwrite any previous setting.
-     *
-     * @param string $el
-     *
-     * @return object
-     */
+
     public function setEl($el)
     {
         $this->element = $el;
@@ -301,12 +208,7 @@ namespace Livy;
         return $this;
     }
 
-    /**
-     * Collapse down the `$attr` array property, and run a little logic as
-     * we do.
-     *
-     * @return string
-     */
+
     public function assembleAttrs()
     {
         $attrs = array();
@@ -321,11 +223,7 @@ namespace Livy;
         return $this->collapse($attrs);
     }
 
-    /**
-     * Assemble all the parts of this Cyrus into an actual HTML element.
-     *
-     * @return string
-     */
+
     public function construct()
     {
         if (in_array($this->element, $this->selfClosing)) :
@@ -334,13 +232,9 @@ namespace Livy;
         endif;
     }
 
-    /**
-     * Shortcut for echoing the `construct()` output.
-     * 
-     * @return void
-     */
+
     public function display()
     {
         echo $this->construct();
     }
-    };
+    }

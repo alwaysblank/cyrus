@@ -74,7 +74,7 @@ namespace Livy;
     {
         if (is_a($content, 'Livy\Cyrus')) :
             $key = $content->key;
-            $content = $content->construct();
+        $content = $content->construct();
         endif;
         if ($key === false) :
             $this->content[] = $content; else :
@@ -100,17 +100,20 @@ namespace Livy;
 
     /**
      * Get the parent of the passed Cyrus.
-     * @param type|null $object 
+     *
+     * @param type|null $object
+     *
      * @return type
      */
-    public function getParent( $object = null )
+    public function getParent($object = null)
     {
-        if ( $object == null ) : $object = $this; endif;
-        if ( $object->parent ) :
-            return $object->parent;
-        else :
+        if ($object == null) : $object = $this;
+        endif;
+        if ($object->parent) :
+            return $object->parent; else :
             throw new \Exception("I couldn't find a parent. You probably forgot to close a child somewhere.");
-            return $object;
+
+        return $object;
         endif;
     }
 
@@ -174,10 +177,12 @@ namespace Livy;
             $parent = $this->getParent();
         } catch (\Exception $e) {
             echo $e->getMessage();
+
             return $this;
         }
-        $parent->addContent( $this );
-        $parent->setChild( $this );
+        $parent->addContent($this);
+        $parent->setChild($this);
+
         return $parent;
     }
 
@@ -331,16 +336,11 @@ namespace Livy;
 
     /**
      * Shortcut for echoing the `construct()` output.
+     * 
+     * @return void
      */
     public function display()
     {
         echo $this->construct();
     }
-};
-
-    $test = new Cyrus;
-    $test->setClass('wrapper')->openChild()->setClass('inner');
-    if(true):
-        $test->openChild()->setClass('deep-inner')->addContent("I'm very deeply nested!");
-    endif;
-    $test->closeChild();
+    };

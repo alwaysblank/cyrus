@@ -1,5 +1,4 @@
 <?php
-
 use Livy\Cyrus;
 
 class CyrusTest extends PHPUnit_Framework_TestCase

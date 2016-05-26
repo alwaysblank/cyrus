@@ -47,6 +47,22 @@ namespace Livy;
     }
 
     /**
+     * Checks whether or not this string looks the way it should.
+     * Returns the string if it passes, and bool false if it doesn't.
+     *
+     * @param string $string
+     * 
+     * @return string|bool
+     */
+    public function safeString($string)
+    {
+        if (preg_match("/^\w+$/", $string)) :
+                return $string; else:
+                return false;
+        endif;
+    }
+
+    /**
      * Add an item to the `content` property, to later be constructed.
      *
      * @param string|object $content A string or a Cyrus object.
@@ -105,16 +121,19 @@ namespace Livy;
     {
         $child = new self();
         $child->setParent($this);
+        $id = $this->safeString($id);
+
         if ($id) :
             $this->{$id} = $child->key;
         endif;
 
         return $child;
     }
+
         /**
          * Re-opens a closed child, identified by $id, and returns it for chaining.
          * 
-         * @param string $id 
+         * @param string $id
          * 
          * @return object
          */
@@ -291,8 +310,6 @@ namespace Livy;
 
     /**
      * Shortcut for echoing the `construct()` output.
-     * 
-     * @return void
      */
     public function display()
     {

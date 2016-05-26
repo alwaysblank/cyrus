@@ -10,11 +10,11 @@ class CyrusTest extends PHPUnit_Framework_TestCase
         $this->assertContains('test-class', $element->setClass('test-class')->addContent('This is a test')->construct());
     }
 
-    public function testCyrusUnterminatedChild()
-    {
-        $test = new Livy\Cyrus();
-        $this->assertContains('test-outer', $test->setClass('test-outer')->openChild()->setClass('inner')->addContent('test content')->construct());
-    }
+    // public function testCyrusUnterminatedChild()
+    // {
+    //     $test = new Livy\Cyrus();
+    //     $this->assertContains('test-outer', $test->setClass('test-outer')->openChild()->setClass('inner')->addContent('test content')->construct());
+    // }
 
     public function testCyrusTerminatedNesting()
     {
@@ -25,5 +25,17 @@ class CyrusTest extends PHPUnit_Framework_TestCase
         endif;
         $testString = $element->construct();
         $this->assertContains('nested deep', $testString);
+    }
+
+    public function testCyrusSafeStringFalse()
+    {
+        $element = new Cyrus();
+        $this->assertFalse($element->safeString('123%%%*#'));
+    }
+
+    public function testCyrusSafeString()
+    {
+        $element = new Cyrus();
+        $this->assertContains('test_string01', $element->safeString('test_string01'));
     }
 }

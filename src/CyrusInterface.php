@@ -155,6 +155,14 @@ interface CyrusInterface
     public function setStyle($prop, $value);
 
     /**
+     * Shortcut for creating img tags
+     * @param string $source 
+     * 
+     * @return object
+     */
+    public function setSrc($source);
+
+    /**
      * Set the element type for this Cyrus.
      * This will overwrite any previous setting.
      *

@@ -228,6 +228,24 @@ class CyrusTest extends PHPUnit_Framework_TestCase
         $this->assertNotContains('blockquote', $element->construct());
     }
 
+    public function testCyrusSetSrc()
+    {
+        $element = new Cyrus;
+
+        $element->setSrc('http://placehold.it/350x150');
+
+        $this->assertEquals("<img src='http://placehold.it/350x150'>", $element->construct());
+    }
+
+    public function testCyrusSetURL()
+    {
+        $element = new Cyrus;
+
+        $element->setURL('http://google.com');
+
+        $this->assertEquals("<a href='http://google.com'></a>", $element->construct());
+    }
+
     public function testCyrusAssembleAttrs()
     {
         $element = new Cyrus;

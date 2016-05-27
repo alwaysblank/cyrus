@@ -210,7 +210,7 @@ require_once( 'CyrusInterface.php' );
 
         public function setURL($url)
         {
-            $this->setAttr('href', $url);
+            $this->setAttr('href', $url)->setEl('a');
 
             return $this;
         }
@@ -220,6 +220,13 @@ require_once( 'CyrusInterface.php' );
         {
             $style = "$prop: $value;";
             $this->setAttr('style', $style);
+
+            return $this;
+        }
+
+        public function setSrc($source)
+        {
+            $this->setAttr('src', $source)->setEl('img');
 
             return $this;
         }

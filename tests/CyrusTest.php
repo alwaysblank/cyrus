@@ -169,4 +169,70 @@ class CyrusTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($key, $element->openChild()->closeChild()->key);
     }
+
+    /**
+     * Can we nest items in an object's child after the method string is terminated
+     * @return type
+     */
+    public function testCyrusNest()
+    {
+        $element = new Cyrus;
+
+        $element->setClass('wrapper')->openChild('firstChild')->addContent('child')->closeChild();
+        $element->nest('firstChild')->addContent('nested')->closeChild();
+
+        $this->assertContains('child nested', $element->construct());
+    }
+
+    /**
+     * Can we retrieve attribute data from an object correctly
+     * @return type
+     */
+    public function testCyrusGetAttr()
+    {
+        $element = new Cyrus;
+
+        $element->setClass('class1')->setID('id1')->setClass('class2');
+
+        $this->assertContains('class2', $element->getAttr('class'));
+    }
+
+    /**
+     * Can we set arbitrary attribute data on an object
+     * @return type
+     */
+    public function testCyrusSetAttr()
+    {
+        $element = new Cyrus;
+
+        $element->setAttr('attribute','attr-content');
+
+        $this->assertContains('attr-content', $element->getAttr('attribute'));
+    }
+
+    public function testCyrusSetEl()
+    {
+        $element = new Cyrus;
+
+        $element->setEl('blockquote');
+
+        $this->assertContains('blockquote', $element->construct());
+    }
+
+    public function testCyrusSetElOverwrite()
+    {
+        $element = new Cyrus;
+
+        $element->setEl('blockquote')->setEl('section');
+
+        $this->assertNotContains('blockquote', $element->construct());
+    }
+
+    public function testCyrusAssembleAttrs()
+    {
+        $element = new Cyrus;
+        $element->setClass('test-class')->setID('test-id')->setAttr('target', 'new')->setAttr('data-bad','should not see this')->setAttr('checked', true)->setAttr('data-bad', false);
+
+        $this->assertEquals("class='test-class' id='test-id' target='new' checked", $element->assembleAttrs());
+    }
 }

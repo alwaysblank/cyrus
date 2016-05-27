@@ -9,7 +9,7 @@ class CyrusTest extends PHPUnit_Framework_TestCase
      */
     public function testCyrusCreateElement()
     {
-        $element = new Cyrus();
+        $element = new Cyrus;
         $this->assertContains('test-class', $element->setClass('test-class')->addContent('This is a test')->construct(), 'We were unable to create a simple Cyrus element.');
     }
 
@@ -19,7 +19,7 @@ class CyrusTest extends PHPUnit_Framework_TestCase
      */
     public function testCyrusBuild()
     {
-        $element = new Cyrus();
+        $element = new Cyrus;
         $element->setEl('section')->setClass('build-wrapper')->setStyle('background-color', 'blue')
             ->openChild('section_header')->setEl('h1')->setClass('section-header')->addContent('This is a title')->closeChild()
             ->openChild('section_body')->setClass('section-body')->addContent('Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ')->closeChild();
@@ -45,7 +45,7 @@ class CyrusTest extends PHPUnit_Framework_TestCase
      */
     public function testCyrusTerminatedNesting()
     {
-        $element = new Cyrus();
+        $element = new Cyrus;
         $element->openChild('firstChild')->addContent('nested')->closeChild();
         if (true) :
             $element->nest('firstChild')->addContent('deep')->closeChild();
@@ -55,22 +55,118 @@ class CyrusTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Check all methods
+     */
+
+    /**
      * Are unsafe strings correctly rejected
      * @return void
      */
     public function testCyrusSafeStringFalse()
     {
-        $element = new Cyrus();
+        $element = new Cyrus;
         $this->assertFalse($element->safeString('123%%%*#'), 'Unsafe strings are being incorrectly reported as safe.');
     }
 
     /**
-     * Are safe strings correctly passed?
+     * Are safe strings correctly passed
      * @return void
      */
     public function testCyrusSafeString()
     {
-        $element = new Cyrus();
+        $element = new Cyrus;
+
         $this->assertContains('test_string01', $element->safeString('test_string01'), 'Safe strings are being incorrectly reported as unsafe.');
+    }
+
+    /**
+     * Can we add simple string content
+     * @return void
+     */
+    public function testCyrusAddContentString()
+    {
+        $test_string = 'test string';
+
+        $element = new Cyrus;
+        $element->addContent($test_string);
+
+        $this->assertContains($test_string, $element->construct());
+    }
+
+    /**
+     * Can we add nested objects as content
+     * @return void
+     */
+    public function testCyrusAddContentObject()
+    {
+        $test_string = 'internal object';
+
+        $testEl = new Cyrus;
+        $testEl->addContent($test_string);
+
+        $element = new Cyrus;
+        $element->addContent($testEl);
+
+        $this->assertContains($test_string, $element->construct());
+    }
+
+    /**
+     * Can we set and get children correctly
+     * @return void
+     */
+    public function testCyrusSetGetChild()
+    {
+        $parent = new Cyrus;
+
+        $child = new Cyrus;
+
+        $key = $child->key;
+
+        $parent->setChild($child);
+
+        $this->assertEquals($key, $parent->getChild($key)->key);
+    }
+
+    /**
+     * Can we set and get parents correctly
+     * @return void
+     */
+    public function testCyrusGetSetParent()
+    {
+        $child = new Cyrus;
+
+        $parent = new Cyrus;
+
+        $key = $parent->key;
+
+        $child->setParent($parent);
+
+        $this->assertEquals($key, $child->getParent()->key);
+    }
+
+    /**
+     * Can we return a new object with openChild
+     * @return void
+     */
+    public function testCyrusOpenChild()
+    {
+        $element = new Cyrus;
+
+        $key = $element->key;
+
+        $this->assertNotEquals($key, $element->openChild()->key);
+    }
+
+    /**
+     * Does closing a child return us to the parent object
+     * @return void
+     */
+    public function testCyrusCloseChild()
+    {
+        $element = new Cyrus;
+
+        $key = $element->key;
+
+        $this->assertEquals($key, $element->openChild()->closeChild()->key);
     }
 }

@@ -133,4 +133,12 @@ $element->setEl('input')->setAttr('type', 'radio')->setAttr('checked', true);
 ```
 
 #### setAttr, etc
-`setAttr` and all of its aliased methods (i.e. `setClass`, `setURL`, etc.
+`setAttr` and all of its aliased methods (i.e. `setClass`, `setURL`, etc) stack up whatever is passed to the same attribute--they don't overwrite anything. The only exception to this is if you pass `false` as an argument to `setAttr`, as this will completely remove that attribute from the element.
+
+This value stacking means that the following statements are equivalent:
+
+```php
+$element->setAttr('class', 'test1')->setClass('test2');
+// is equivalent to...
+$element->setClass('test1 test2');
+```

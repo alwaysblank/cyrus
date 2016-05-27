@@ -36,13 +36,16 @@ require_once( 'CyrusInterface.php' );
 
         public function __call($name, $arguments)
         {
-            $possibleName = $this->safeString('set' . ucfirst($name));
+            $possibleNames = [];
+            $possibleNames[] = $this->safeString('set' . ucfirst($name));
+            $possibleNames[] = $this->safeString('set' . strtoupper($name));
 
-            if (method_exists($this, $possibleName)) :
-                $this->$possibleName($this->collapse($arguments));
-            endif;
-
-            return $this;
+            foreach ($possibleNames as $possibleName) :
+                if (method_exists($this, $possibleName)) :
+                    $this->$possibleName($this->collapse($arguments));
+                endif;
+                return $this;
+            endforeach;
         }
 
         /**

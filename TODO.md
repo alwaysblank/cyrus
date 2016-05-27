@@ -5,4 +5,3 @@
 - implement debug functionality
     - prints out debug info based on debug switch passed on instantiation
     - debug setting cascades down to all further invocations
-- implement shortcut functionality

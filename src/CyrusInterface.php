@@ -25,6 +25,17 @@ interface CyrusInterface
     public function addContent($content, $key = false);
 
     /**
+     * An alias for addContent, so that we can access it through the __call
+     * magic method shortcuts.
+     * 
+     * @param string|object $content 
+     * @param string|bool $key 
+     * 
+     * @return object
+     */
+    public function setContent($content, $key = false);
+
+    /**
      * Return the child as identified by $key.
      * 
      * @param string $key 

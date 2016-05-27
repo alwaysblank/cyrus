@@ -34,6 +34,17 @@ require_once( 'CyrusInterface.php' );
             $this->key = uniqid('cyrus');
         }
 
+        public function __call($name, $arguments)
+        {
+            $possibleName = $this->safeString('set' . ucfirst($name));
+
+            if (method_exists($this, $possibleName)) :
+                $this->$possibleName($this->collapse($arguments));
+            endif;
+
+            return $this;
+        }
+
         /**
          * A convenience function. Mostly just a wrapper for `join`, but passing it through
          * this method allows for additional logic (if needed).
@@ -62,12 +73,20 @@ require_once( 'CyrusInterface.php' );
         {
             if (is_a($content, 'Livy\Cyrus')) :
                 $key = $content->key;
-            $content = $content->construct();
+                $content = $content->construct();
             endif;
             if ($key === false) :
-                $this->content[] = $content; else :
+                $this->content[] = $content; 
+            else :
                 $this->content[$key] = $content;
             endif;
+
+            return $this;
+        }
+
+        public function setContent($content, $key = false)
+        {
+            $this->addContent($content, $key);
 
             return $this;
         }

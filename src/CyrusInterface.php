@@ -25,6 +25,15 @@ interface CyrusInterface
     public function addContent($content, $key = false);
 
     /**
+     * Return the child as identified by $key.
+     * 
+     * @param string $key 
+     * 
+     * @return $object
+     */
+    public function getChild($key);
+
+    /**
      * Set the child of this Cyrus, using a key to allow us to add multiple children.
      *
      * @param type $object
@@ -59,6 +68,13 @@ interface CyrusInterface
     public function openChild($id = false);
 
     /**
+     * Close the child and return to the parent Cyrus.
+     *
+     * @return object $parent Returned for chaining.
+     */
+    public function closeChild();
+
+    /**
      * Re-opens a closed child, identified by $id, and returns it for chaining.
      * 
      * @param string $id
@@ -66,13 +82,6 @@ interface CyrusInterface
      * @return object
      */
     public function nest($id);
-
-    /**
-     * Close the child and return to the parent Cyrus.
-     *
-     * @return object $parent Returned for chaining.
-     */
-    public function closeChild();
 
     /**
      * Get the value of the specified attribute.

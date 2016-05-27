@@ -72,6 +72,11 @@ require_once( 'CyrusInterface.php' );
         return $this;
     }
 
+    public function getChild($key)
+    {
+        return $this->child[$key];
+    }
+
 
     public function setChild($object)
     {
@@ -116,17 +121,6 @@ require_once( 'CyrusInterface.php' );
     }
 
 
-    public function nest($id)
-    {
-        if (!$id) : return $this;
-        endif;
-
-        $child = $this->{$id};
-
-        return $this->child[$child];
-    }
-
-
     public function closeChild()
     {
         try {
@@ -140,6 +134,17 @@ require_once( 'CyrusInterface.php' );
         $parent->setChild($this);
 
         return $parent;
+    }
+
+
+    public function nest($id)
+    {
+        if (!$id) : return $this;
+        endif;
+
+        $child = $this->{$id};
+
+        return $this->child[$child];
     }
 
 

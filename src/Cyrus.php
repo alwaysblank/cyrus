@@ -42,7 +42,7 @@ require_once( 'CyrusInterface.php' );
 
             foreach ($possibleNames as $possibleName) :
                 if (method_exists($this, $possibleName)) :
-                    $this->$possibleName($this->collapse($arguments));
+                    $this->$possibleName(...$arguments);
                 endif;
                 return $this;
             endforeach;

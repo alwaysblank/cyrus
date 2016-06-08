@@ -13,12 +13,12 @@ require_once( 'CyrusInterface.php' );
      */
     class Cyrus implements CyrusInterface
     {
-        private $content = array();
-        private $attrs = array();
-        private $element = 'div';
-        private $parent;
-        private $child;
-        private $selfClosing = array(
+        protected $content = array();
+        protected $attrs = array();
+        protected $element = 'div';
+        protected $parent;
+        protected $child;
+        protected $selfClosing = array(
         'img',
         'br',
         'hr',
@@ -57,7 +57,7 @@ require_once( 'CyrusInterface.php' );
          *
          * @return string $return A string containing all of our joined array items.
          */
-        private function collapse($array, $delimiter = ' ')
+        protected function collapse($array, $delimiter = ' ')
         {
             return implode($delimiter, $array);
         }

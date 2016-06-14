@@ -164,9 +164,23 @@ require_once( 'CyrusInterface.php' );
             if (!$id) : return $this;
             endif;
 
-            $child = $this->{$id};
+            $levels = explode('/', $id);
 
-            return $this->child[$child];
+            var_dump($levels);
+
+            if(count($levels) > 1) :
+                $obj = $this;
+                foreach ($levels as $level) {
+                    // get child of current object
+                    $obj = $obj->child[$obj->$level];
+                    // set that child as current object
+                }
+                return $obj;
+            else :
+                $child = $this->{$levels[0]};
+
+                return $this->child[$child];
+            endif;
         }
 
 
@@ -272,3 +286,7 @@ require_once( 'CyrusInterface.php' );
             echo $this->construct();
         }
     }
+
+    $text = new Cyrus;
+    $text->class('wrapper')->openChild('level1')->class('level1')->openChild('level2')->class('level2')->openChild('level3')->class('level3')->closeChild()->closeChild()->closeChild();
+    var_dump($text->nest('level1/level2/level3'));

@@ -90,6 +90,31 @@ $nestedAgain->display();
 // </div>
 ```
 
+You must point to nested elements directly, and define the entire path if they are nested more than one level down. You can do this by delimiting the ids with `/`, like so:
+
+```php
+$deepNesting = new Cyrus;
+
+$deepNesting->setClass('wrapper')
+	->openChild('level1')->setClass('level-1')
+		->openChild('level2')->setClass('level-2')->closeChild()
+	->closeChild();
+	
+$deepNesting->nest('level1/level2')->addContent('Content')->closeChild()->closeChild();
+
+$deepNesting->display();
+
+//<div class="wrapper">
+//	<div class="level-1">
+//		<div class="level-2">Content</div>
+//	</div>
+//</div>		
+
+```
+
+It's important to note that when opening up nesting contexts like this, *all* children must be closed. There are a two convenience methods that can help you with this, `closeChildren` and `closeAll`. `closeChildren` takes an integer as an argument, and will close a number children equal to that integer. `closeAll` takes no arguments, and will close all chilren that are open in the current context.
+
+
 ### Methods
 
 To learn how methods operate, have a look at the source files (`./src`). Each method is well documented.
@@ -107,7 +132,7 @@ $element->setEl('blockquote');
 
 $element->attr('target', 'new');
 // is equivalent to...
-$element->setAttr('')
+$element->setAttr('target', 'new);
 ```
 
 #### Advanced Attribute Manipulation

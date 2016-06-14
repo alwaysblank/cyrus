@@ -18,7 +18,8 @@ interface CyrusInterface
      * Add an item to the `content` property, to later be constructed.
      *
      * @param string|object $content A string or a Cyrus object.
-     * @param string|bool   $key     An optional key to identify this in the array.
+     * @param string|bool   $key     An optional key to identify this in the 
+     * array.
      *
      * @return object $this Returned for chaining.
      */
@@ -45,7 +46,8 @@ interface CyrusInterface
     public function getChild($key);
 
     /**
-     * Set the child of this Cyrus, using a key to allow us to add multiple children.
+     * Set the child of this Cyrus, using a key to allow us to add multiple 
+     * children.
      *
      * @param type $object
      *
@@ -86,7 +88,25 @@ interface CyrusInterface
     public function closeChild();
 
     /**
+     * Close a number of nested children equal to `$levels`. 
+     * 
+     * @param int $levels 
+     * @return object
+     */
+    public function closeChildren( $levels );
+
+    /**
+     * Close all open children by looping through them until it reaches
+     * an object with no `parent` property.
+     * 
+     * @return object
+     */
+    public function closeAll();
+
+    /**
      * Re-opens a closed child, identified by $id, and returns it for chaining.
+     * 
+     * It will also accept a list of nested children, delimited by '/'.
      * 
      * @param string $id
      * 
@@ -97,7 +117,8 @@ interface CyrusInterface
     /**
      * Get the value of the specified attribute.
      *
-     * @param string $attr The attribute requested, i.e. `class`, `style`, `data-target`, etc.
+     * @param string $attr The attribute requested, i.e. `class`, `style`, 
+     * `data-target`, etc.
      *
      * @return string|array
      */

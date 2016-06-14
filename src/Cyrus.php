@@ -159,6 +159,26 @@ require_once( 'CyrusInterface.php' );
         }
 
 
+        public function closeChildren( $levels )
+        {
+            $i = 0;
+            $obj = $this;
+            while ( $i < $levels) {
+                $obj = $obj->closeChild();
+                $i++;
+            }
+            return $obj;
+        }
+
+        public function closeAll()
+        {
+            $obj = $this;
+            while($obj->parent) :
+                $obj = $obj->closeChild();
+            endwhile;
+            return $obj;
+        }
+
         public function nest($id)
         {
             if (!$id) : return $this;
@@ -166,14 +186,14 @@ require_once( 'CyrusInterface.php' );
 
             $levels = explode('/', $id);
 
-            var_dump($levels);
-
             if(count($levels) > 1) :
                 $obj = $this;
+                $obj->level = 0;
+                $i = 1;
                 foreach ($levels as $level) {
-                    // get child of current object
                     $obj = $obj->child[$obj->$level];
-                    // set that child as current object
+                    $obj->level = $i;
+                    $i++;
                 }
                 return $obj;
             else :
@@ -286,7 +306,3 @@ require_once( 'CyrusInterface.php' );
             echo $this->construct();
         }
     }
-
-    $text = new Cyrus;
-    $text->class('wrapper')->openChild('level1')->class('level1')->openChild('level2')->class('level2')->openChild('level3')->class('level3')->closeChild()->closeChild()->closeChild();
-    var_dump($text->nest('level1/level2/level3'));

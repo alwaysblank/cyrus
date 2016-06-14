@@ -51,7 +51,28 @@ class CyrusTest extends PHPUnit_Framework_TestCase
             $element->nest('firstChild')->addContent('deep')->closeChild();
         endif;
         $testString = $element->construct();
-        $this->assertContains('nested deep', $testString, 'We were unable to deeply nest an object after the top-level object method string was terminated.');
+        $this->assertContains('nested deep', $testString, 'We were unable to nest an object after the top-level object method string was terminated.');
+    }
+
+    /**
+     * Can we nest elements after terminating a method chain
+     * @return void
+     */
+    public function testCyrusDeepTerminatedNesting()
+    {
+        $element = new Cyrus;
+        $element->class('wrapper')
+            ->openChild('level1')->class('level1')
+                ->openChild('level2')->class('level2')
+                    ->openChild('level3')->class('level3')->content("Content")
+        ->closeAll();
+        
+        if (true) :
+            $element->nest('level1/level2/level3')->content('Nested')->closeAll();
+        endif;
+
+        $testString = $element->construct();
+        $this->assertContains('Content Nested', $testString, 'We were unable to deeply nest an object after the top-level object method string was terminated.');
     }
 
     /**

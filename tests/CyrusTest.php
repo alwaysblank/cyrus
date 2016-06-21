@@ -59,6 +59,17 @@ class CyrusTest extends PHPUnit_Framework_TestCase
      */
 
     /**
+     * Can we get some arbitrary property values
+     * @return voic
+     */
+    public function testCyrusGet()
+    {
+        $element = new Cyrus;
+        $element->content('test content');
+        $this->assertContains('test content', $element->get('content'));
+    }
+
+    /**
      * Are unsafe strings correctly rejected
      * @return void
      */

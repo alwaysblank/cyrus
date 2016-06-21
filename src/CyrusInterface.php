@@ -5,6 +5,17 @@ interface CyrusInterface
 {
 
     /**
+     * Returns the values of properties. Does a simple check using
+     * `safeString` to reject bad requests. Returned value is whatever
+     * is in that property, so it can vary.
+     * 
+     * @param string $prop
+     * 
+     * @return mixed
+     */    
+    public function get($prop);
+
+    /**
      * Checks whether or not this string looks the way it should.
      * Returns the string if it passes, and bool false if it doesn't.
      *

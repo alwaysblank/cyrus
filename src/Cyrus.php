@@ -63,6 +63,12 @@ require_once( 'CyrusInterface.php' );
         }
 
         
+        public function get($prop)
+        {
+          return $this->{$this->safeString($prop)};
+        }
+
+        
         public function safeString($string)
         {
             if (preg_match("/^\w+$/", $string)) :

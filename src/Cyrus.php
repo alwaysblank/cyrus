@@ -234,6 +234,19 @@ require_once( 'CyrusInterface.php' );
             return $this;
         }
 
+        public function setAttrs($array)
+        {
+            if(!is_array($array)) :
+                return $this;
+            endif;
+
+            foreach ($array as $attr => $value) :
+                $this->setAttr($attr, $value);
+            endforeach;
+
+            return $this;
+        }
+
 
         public function setClass($class)
         {

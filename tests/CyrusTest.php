@@ -242,6 +242,21 @@ class CyrusTest extends PHPUnit_Framework_TestCase
         $this->assertContains('attr-content', $element->getAttr('attribute'));
     }
 
+    public function testCyrusMultiSetAttr()
+    {
+        $element = new Cyrus;
+
+        $attrs = array(
+                'data-target' => '.header',
+                'itemscope' => true,
+                'attribute' => 'attribute content'
+            );
+
+        $element->setAttrs($attrs);
+
+        $this->assertContains("<div data-target='.header' itemscope attribute='attribute content'></div>", $element->construct());
+    }
+
     public function testCyrusSetEl()
     {
         $element = new Cyrus;

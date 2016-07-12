@@ -149,6 +149,18 @@ interface CyrusInterface
      */
     public function setAttr($attr, $value);
 
+
+    /**
+     * Sets multiple attributes in a single call. Attributes must be passed
+     * to the method in an array, in the form of `[ $attr1 => value1, 
+     * $attr2 => $value2 ]`. 
+     * 
+     * This method is essentially a wrapper for multiple calls to `setAttr`.
+     * @param array $array 
+     * @return object
+     */
+    public function setAttrs($array);
+
     /**
      * `class` shortcut for setAttr.
      *

@@ -148,6 +148,11 @@ require_once( 'CyrusInterface.php' );
             return $child;
         }
 
+        public function o($id = false)
+        {
+            return $this->openChild($id);
+        }
+
 
         public function closeChild()
         {
@@ -162,6 +167,11 @@ require_once( 'CyrusInterface.php' );
             $parent->setChild($this);
 
             return $parent;
+        }
+
+        public function c($id = false)
+        {
+            return $this->closeChild($id);
         }
 
 
@@ -179,10 +189,15 @@ require_once( 'CyrusInterface.php' );
         public function closeAll()
         {
             $obj = $this;
-            while($obj->parent) :
+            while(is_object($obj->parent)) :
                 $obj = $obj->closeChild();
             endwhile;
             return $obj;
+        }
+
+        public function ca()
+        {
+            return $this->closeAll();
         }
 
         public function nest($id)
@@ -207,6 +222,11 @@ require_once( 'CyrusInterface.php' );
 
                 return $this->child[$child];
             endif;
+        }
+
+        public function n($id)
+        {
+            return $this->nest($id);
         }
 
 

@@ -44,6 +44,8 @@ interface CyrusInterface
      * @param string|bool $key 
      * 
      * @return object
+     * 
+     * @see Cyrus::addContent()     Aliased by this method.
      */
     public function setContent($content, $key = false);
 
@@ -87,9 +89,21 @@ interface CyrusInterface
     /**
      * Create and return a child of the current Cyrus.
      *
-     * @return object
+     * @param string $id    An optional ID to identify this child.
+     * @return object       Cyrus object for chaining
      */
     public function openChild($id = false);
+
+    /**
+     * Opens a child element on the current element. 
+     * 
+     * Alias of Cyrus::openChild(), for convenience.
+     * 
+     * @param string $id    An optional ID to identify this child.
+     * @return object       Cyrus object for chaining.
+     * @see Cyrus::openChild()  Aliased by this method.
+     */
+    // public function o($id = false);
 
     /**
      * Close the child and return to the parent Cyrus.
@@ -97,6 +111,16 @@ interface CyrusInterface
      * @return object $parent Returned for chaining.
      */
     public function closeChild();
+
+    /**
+     * Close the child and return to the parent Cyrus.
+     * 
+     * Alias of Cyrus::openChild(), for convenience.
+     * 
+     * @return object   Cyrus object for chaining
+     * @see Cyrus::closeChild()     Aliased by this method.
+     */
+    // public function c();
 
     /**
      * Close a number of nested children equal to `$levels`. 
@@ -115,15 +139,42 @@ interface CyrusInterface
     public function closeAll();
 
     /**
-     * Re-opens a closed child, identified by $id, and returns it for chaining.
+     * Closes all open children in the chain.
      * 
-     * It will also accept a list of nested children, delimited by '/'.
+     * Alias of Cyrus::closeAll() for convenience.
+     * 
+     * @return object   Cyrus object for chaining
+     * @see Cyrus::closeAll()   Aliased by this method.
+     */
+    // public function ca();
+
+    /**
+     * Re-opens a closed child identified by $id, and returns the child
+     * object for chaining.
+     * 
+     * Deeply nested children can be targeted by passed a 'directory'
+     * as the id, i.e. `parent/babysitter/child`.
      * 
      * @param string $id
      * 
      * @return object
      */
     public function nest($id);
+
+    /**
+     * Re-opens a closed child identified by $id, and returns the child
+     * object for chaining.
+     * 
+     * Deeply nested children can be targeted by passed a 'directory'
+     * as the id, i.e. `parent/babysitter/child`.
+     * 
+     * Alias of Cyrus::nest() for convenience.
+     * 
+     * @param string $id    The id or 'directory' that targets a child.
+     * @return object       Cyrus object returned for chaining.
+     * @see Cyrus::nest()   Aliased by this method.
+     */
+    // public function n($id);
 
     /**
      * Get the value of the specified attribute.

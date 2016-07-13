@@ -135,6 +135,26 @@ $element->attr('target', 'new');
 $element->setAttr('target', 'new);
 ```
 
+Most nesting functions have short forms as well:
+
+```php
+$el->o();
+// is equivalent to...
+$el->openChild();
+
+$el->c();
+// is equivalent to...
+$el->closeChild();
+
+$el->ca();
+// is equivalent to...
+$el->closeAll();
+
+$el->n('something');
+// is equivalent to...
+$el->nest('something');
+```
+
 #### Advanced Attribute Manipulation
 
 ##### Unset Attribute

@@ -300,4 +300,16 @@ class CyrusTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals("class='test-class' id='test-id' target='new' checked", $element->assembleAttrs());
     }
+
+    public function testCyrusChildParentShortcuts()
+    {
+        $element = new Cyrus;
+        $element->class('wrapper')
+            ->o('test_parent')->setClass('parent')->content('parent content')
+                ->o('test_child')->class('child')->content('child content...')
+            ->ca()
+            ->n('test_parent/test_child')->content('and some more content!')->ca();
+
+        $this->assertContains('child content... and some more content!', $element->construct());
+    }
 }

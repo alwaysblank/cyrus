@@ -29,9 +29,12 @@ require_once( 'CyrusInterface.php' );
         );
         public $key;
 
-        public function __construct()
+        public function __construct($name = null)
         {
             $this->key = uniqid('cyrus');
+            if($name != null && $this->safeString($name)) :
+                $this->class($name);
+            endif;
         }
 
         public function __call($name, $arguments)
@@ -60,6 +63,12 @@ require_once( 'CyrusInterface.php' );
         protected function collapse($array, $delimiter = ' ')
         {
             return implode($delimiter, $array);
+        }
+
+
+        public static function open($name = null)
+        {
+            return new self($name);
         }
 
         

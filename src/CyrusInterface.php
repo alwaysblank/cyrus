@@ -3,6 +3,16 @@ namespace Livy;
 
 interface CyrusInterface
 {
+    /**
+     * Instantiate a Cyrus object without `new`. 
+     * 
+     * Optionally accepts a string, which will be applied added to
+     * the objects `class` array.
+     * 
+     * @param string|null $name 
+     * @return object
+     */
+    public static function open($name = null);
 
     /**
      * Returns the values of properties. Does a simple check using

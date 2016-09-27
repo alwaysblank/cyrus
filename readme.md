@@ -13,6 +13,12 @@ $element = new Cyrus;
 $element->setEl('h1')->setClass('headline-el')->addContent('This is a Headline!')->display();
 ```
 
+> **Note:** You can also instatiate Cyrus with its internal factory:
+>
+> ```php
+> $element = Cyrus::open(); // this is the same as `$element = new Cyrus;`
+> ```
+
 The above code will print out the following:
 
 ```html
@@ -24,7 +30,7 @@ It supports any tag type, even ones you made up:
 ```php
 $fakeTag = new Cyrus;
 
-$fakeTag->setEl('fake-tag')->setContent('This isn't a real tag, but it's rendered anyway!')->display();
+$fakeTag->setEl('fake-tag')->setContent('This isn\'t a real tag, but it\'s rendered anyway!')->display();
 
 // <fake-tag>
 // This isn't a real tag, but it's rendered anyway!
@@ -36,6 +42,17 @@ In general the order you chain methods in doesn't matter: `$element->setClass('a
 - Nesting (see next section) requires `openChild` at the beginning fo a child element and `closeChild` at the end: Any other order will cause Cyrus to fail.
 - Methods that overwrite content (i.e. `setEl`) will overwrite the actions of previous calls in the chain (unless separated by child barriers).
 - Calls to `construct` or `display` should always come last. Since they don't return the current object, they'll break the chain, and attempting to chain other things after them will cause some errors.
+
+#### Initial Class
+
+When instantiating Cyrus, you can specify a class for the primary element, by doing the following:
+
+```php
+$test = new Cyrus('test-1');
+// or...
+$test = Cyrus::open('test-1');
+// <div class="test-1"></div>
+```
 
 ### Nesting
 

@@ -60,9 +60,21 @@ require_once( 'CyrusInterface.php' );
          *
          * @return string $return A string containing all of our joined array items.
          */
-        protected function collapse($array, $delimiter = ' ')
+        protected function collapse($array, $delimiter = ' ', $trim = false)
         {
-            return implode($delimiter, $array);
+            $return = null;
+            $i = count($array);
+
+            if($i < 1) : return ''; endif;
+
+            if($i === 1 && array_values($array)[0] === false) : return false; endif;
+
+            foreach ($array as $key => $item) :
+              $i = --$i;
+              $return .= ($i > 0 ? $item.$delimiter : $item);
+            endforeach;
+
+            return ($trim ? trim($return) : $return);
         }
 
 
@@ -343,8 +355,9 @@ require_once( 'CyrusInterface.php' );
         public function construct()
         {
             if (in_array($this->element, $this->selfClosing)) :
-                return "<{$this->element} {$this->assembleAttrs()}>"; else :
-                return "<{$this->element} {$this->assembleAttrs()}>{$this->collapse($this->content)}</{$this->element}>";
+                return "<{$this->element} {$this->assembleAttrs()}>"; 
+            elseif($this->collapse($this->content) !== false) :
+                return "<{$this->element} {$this->assembleAttrs()}>{$this->collapse($this->content, ' ', true)}</{$this->element}>";
             endif;
         }
 

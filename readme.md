@@ -204,3 +204,19 @@ $element->setAttr('class', 'test1')->setClass('test2');
 // is equivalent to...
 $element->setClass('test1 test2');
 ```
+
+#### Negate Element with False Content
+Using `setContent` to set the only content of an element explictly to bool `false` will cause that element to not be generated. This can be useful if you want elements to only appear if they have content. In order for the element to be negated, the following must be true:
+
+  * The element has only one item of content (i.e. count($this->content) === 1)
+  * That content item is exactly equal to bool `false` (not a _falsey value_, but the literal boolean `false`)
+  * The element in question is not a self-closing element
+
+Examples:
+
+```php
+$element->class('outside')
+  ->content('hello')
+  ->o()->class('inside')->content(false)->c();
+// <div class="outside">hello</div>
+```

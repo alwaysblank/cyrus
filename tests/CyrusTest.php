@@ -143,6 +143,35 @@ class CyrusTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * If an element contains only a single content row, and the value
+     * of that row is bool false, that object should not be generated.
+     * @return void
+     */
+    public function testCyrusRemoveContentFalse()
+    {
+      $element = new Cyrus;
+      $element->content(false);
+
+      $this->assertEquals(null, $element->construct());
+    }
+
+    /**
+     * If a child meets the content === false test from 
+     * `testCyrusRemoveContentFalse()`, then that child should be
+     * removed.
+     * @return void
+     */
+    public function testCyrusRemoveContentFalseComplex()
+    {
+      $element = new Cyrus;
+      $element->class('outside')
+        ->content('hey')
+        ->o()->class('inside')->content(false)->c();
+
+      $this->assertNotContains('inside', $element->construct());
+    }
+
+    /**
      * Can we set and get children correctly
      * @return void
      */

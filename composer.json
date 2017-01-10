@@ -9,7 +9,9 @@
             "email": "ben@murmurcreative.com"
         }
     ],
-    "require": {},
+    "require": {
+        "hipparchus/pocketknife": "^0.0.2"
+    },
     "require-dev": {
         "phpunit/phpunit": "5.5.*"
     },

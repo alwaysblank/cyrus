@@ -1,5 +1,6 @@
 <?php
 namespace Livy;
+use \Hipparchus\Pocketknife as Util;
 
 require_once( 'CyrusInterface.php' );
 
@@ -32,8 +33,8 @@ require_once( 'CyrusInterface.php' );
         public function __construct($name = null)
         {
             $this->key = uniqid('cyrus');
-            if($name != null && $this->safeString($name)) :
-                $this->class($name);
+            if($this->safeString($name)) :
+                $this->setClass($this->safeString($name));
             endif;
         }
 
@@ -94,7 +95,7 @@ require_once( 'CyrusInterface.php' );
         
         public function safeString($string)
         {
-            if (preg_match("/^\w+$/", $string)) :
+            if (Util::safeString($string, "/^[\w\-]+$/")) :
                     return $string; else:
                     return false;
             endif;

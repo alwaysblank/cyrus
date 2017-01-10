@@ -366,6 +366,6 @@ class CyrusTest extends PHPUnit_Framework_TestCase
     {
         $element = Cyrus::open('cyrus-factory')->attr('data-function', 'none')->content('I was created in a factory!');
 
-        $this->assertContains("<div data-function='none'>I was created in a factory!</div>", $element->construct());
+        $this->assertContains("<div class='cyrus-factory' data-function='none'>I was created in a factory!</div>", $element->construct());
     }
 }

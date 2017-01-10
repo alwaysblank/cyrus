@@ -172,6 +172,26 @@ class CyrusTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Data passed to ->content() should always be a string (or Cyrus
+     * object). If it recieves an integer or float, it will attempt to convert
+     * it into a string: Otherwise, it will ignore the non-string/Cyrus 
+     * content.
+     * @return void
+     */
+    public function testCyrusIgnoreNonStringContent()
+    {
+      $element = new Cyrus;
+      $element->content('valid content')
+        ->content(['array content'])
+        ->content(Cyrus::open()->content(["I'm", "not", "okay"])->content("I'm okay, though"))
+        ->content(true)
+        ->content(2)
+        ->content(2.345);
+
+      $this->assertContains("<div >valid content <div >I'm okay, though</div> 2 2.345</div>", $element->construct(), "Certain types of content are not being properly ignored or shown.");
+    }
+
+    /**
      * Can we set and get children correctly
      * @return void
      */

@@ -71,6 +71,8 @@ require_once( 'CyrusInterface.php' );
 
             foreach ($array as $key => $item) :
               $i = --$i;
+              if(is_int($item) || is_float($item)) : $item = strval($item); endif;
+              if(!is_string($item)) : continue; endif;
               $return .= ($i > 0 ? $item.$delimiter : $item);
             endforeach;
 

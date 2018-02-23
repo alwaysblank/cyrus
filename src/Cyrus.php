@@ -1,6 +1,6 @@
 <?php
 namespace Livy;
-use \Hipparchus\Pocketknife as Util;
+use \Zenodorus\Strings as Util;
 
 require_once( 'CyrusInterface.php' );
 
@@ -95,7 +95,7 @@ require_once( 'CyrusInterface.php' );
         
         public function safeString($string)
         {
-            if (Util::safeString($string, "/^[\w\-]+$/")) :
+            if (Util::safe((string) $string, "/^[\w\-]+$/")) :
                     return $string; else:
                     return false;
             endif;

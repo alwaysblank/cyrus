@@ -1,4 +1,5 @@
 <?php namespace Livy\Cyrus\Brick;
+
 use Livy\Cyrus\Cyrus;
 
 /**
@@ -56,7 +57,7 @@ abstract class Mold
      * @param Cyrus $Cyrus
      * @return Mold
      */
-    public function attach(Cyrus $Cyrus) : self
+    public function attach(Cyrus $Cyrus): self
     {
         $Cyrus->handleAttach($this);
         return $this;
@@ -67,7 +68,7 @@ abstract class Mold
      *
      * @return string
      */
-    protected function generateUID() : string
+    protected function generateUID(): string
     {
         return uniqid();
     }
@@ -78,7 +79,7 @@ abstract class Mold
      * Returns the value of the current property if no value is passed;
      * returns the new value if one is.
      *
-     * @param $name
+     * @param      $name
      * @param null $value
      * @return mixed
      */
@@ -92,6 +93,24 @@ abstract class Mold
     }
 
     /**
+     * Appends two arrays, if the first parameter is an array.
+     *
+     * Primarily useful for dealing with modifying Brick props that store data in arrays.
+     *
+     * @param mixed $maybeArray
+     * @param array $base
+     * @return array
+     */
+    protected function appendIfArray($maybeArray, array $base): array
+    {
+        if (is_array($maybeArray)) {
+            return array_merge($base, $maybeArray);
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * Get uid.
      *
      * (uid cannot be set.)
@@ -99,7 +118,7 @@ abstract class Mold
      * @see Mold::prop()
      * @return string
      */
-    public function uid() : string
+    public function uid(): string
     {
         return $this->prop('uid');
     }
@@ -111,7 +130,7 @@ abstract class Mold
      * @param string|null $value
      * @return string
      */
-    public function parent(string $value = null) : string
+    public function parent(string $value = null): string
     {
         return $this->prop('parent', $value);
     }
@@ -119,34 +138,43 @@ abstract class Mold
     /**
      * Get/set class.
      *
+     * New classes can be added as either strings or arrays.
+     *
      * Unlike other Mold::prop() variants, this appends instead of overwrites.
      *
      * @see Mold::prop()
-     * @param array|null $value
+     * @param array|string|null $class
      * @return array
      */
-    public function class(array $value = null) : array
+    public function class($class = null): array
     {
+        if (is_string($class)) {
+            $validatedClass = [$class];
+        } elseif (is_array($class)) {
+            $validatedClass = $class;
+        } else {
+            $validatedClass = null;
+        }
         return $this->prop(
             'class',
-            array_merge($this->prop('class'), $value)
+            $this->appendIfArray($validatedClass, $this->prop('class'))
         );
     }
 
     /**
-     * Get/set attributes.
+     * Get/set HTML attributes.
      *
      * Unlike other Mold::prop() variants, this appends instead of overwrites.
      *
      * @see Mold::prop()
-     * @param array|null $value
+     * @param array|null $attributes
      * @return array
      */
-    public function attributes(array $value = null) : array
+    public function attributes(array $attributes = null): array
     {
         return $this->prop(
             'attributes',
-            array_merge($this->prop('attributes'), $value)
+            $this->appendIfArray($attributes, $this->prop('attributes'))
         );
     }
 
@@ -157,7 +185,7 @@ abstract class Mold
      * @param int|null $value
      * @return int
      */
-    public function order(int $value = null) : int
+    public function order(int $value = null): int
     {
         return $this->prop('order', $value);
     }
